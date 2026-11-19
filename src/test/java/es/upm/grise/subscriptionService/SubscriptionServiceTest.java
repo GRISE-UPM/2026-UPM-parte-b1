@@ -29,7 +29,7 @@ class SubscriptionServiceTest {
 	}
 
 	@Test
-	void addSubscriberAcceptsEmailAndLocalUsers() throws Exception {
+	void test1() throws Exception {
 		User emailUser = new User(Delivery.EMAIL, "user@example.com");
 		User localUser = new User(Delivery.LOCAL, null);
 
@@ -42,13 +42,13 @@ class SubscriptionServiceTest {
 	}
 
 	@Test
-	void addSubscriberRejectsNullUser() {
+	void test2() {
 		assertThrows(NullUserException.class, () -> subscriptionService.addSubscriber(null));
 		assertTrue(subscriptionService.getSubscribers().isEmpty());
 	}
 
 	@Test
-	void addSubscriberRejectsDuplicateUser() throws Exception {
+	void test3() throws Exception {
 		User user = new User(Delivery.LOCAL, null);
 		subscriptionService.addSubscriber(user);
 
@@ -57,7 +57,7 @@ class SubscriptionServiceTest {
 	}
 
 	@Test
-	void addSubscriberRequiresEmailForNonLocalUsers() {
+	void test4() {
 		for (Delivery delivery : new Delivery[] { Delivery.EMAIL, Delivery.DO_NOT_DELIVER }) {
 			SubscriptionService service = new SubscriptionService(emailService);
 			User userWithoutEmail = new User(delivery, null);
@@ -68,7 +68,7 @@ class SubscriptionServiceTest {
 	}
 
 	@Test
-	void removeSubscriberRemovesExistingUser() throws Exception {
+	void test5() throws Exception {
 		User user = new User(Delivery.LOCAL, null);
 		subscriptionService.addSubscriber(user);
 
@@ -78,19 +78,19 @@ class SubscriptionServiceTest {
 	}
 
 	@Test
-	void removeSubscriberRejectsNullUser() {
+	void test6() {
 		assertThrows(NullUserException.class, () -> subscriptionService.removeSubscriber(null));
 	}
 
 	@Test
-	void removeSubscriberRejectsUnknownUser() {
+	void test7() {
 		User user = new User(Delivery.LOCAL, null);
 
 		assertThrows(NonExistingUserException.class, () -> subscriptionService.removeSubscriber(user));
 	}
 
 	@Test
-	void sendMessageUsesEachDeliveryModeAndCountsDiscardedMessages() throws Exception {
+	void test8() throws Exception {
 		User localUser = mock(User.class);
 		User emailUser = mock(User.class);
 		User doNotDeliverUser = mock(User.class);
